@@ -16,12 +16,12 @@ class FilmControllerTest {
     private FilmController filmController;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
         filmController = new FilmController();
     }
 
     @Test
-    void createFilm_success() {
+    protected void createFilm_success() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.parse("2000-01-01"), 120);
         Film createdFilm = filmController.createFilm(film);
         assertNotNull(createdFilm.getId());
@@ -32,7 +32,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilm_invalidReleaseDate() {
+    protected void createFilm_invalidReleaseDate() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.parse("1800-01-01"), 120);
         ValidationException exception = assertThrows(ValidationException.class, () -> {
             filmController.createFilm(film);
@@ -41,7 +41,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilm_blankName() {
+    protected void createFilm_blankName() {
         Film film = new Film(null, "", "Description", LocalDate.parse("2000-01-01"), 120);
         ValidationException exception = assertThrows(ValidationException.class, () -> {
             filmController.createFilm(film);
@@ -50,7 +50,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void updateFilm_success() {
+    protected void updateFilm_success() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.parse("2000-01-01"), 120);
         Film createdFilm = filmController.createFilm(film);
 
@@ -65,7 +65,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void updateFilm_notFound() {
+    protected void updateFilm_notFound() {
         Film updateInfo = new Film(999L, "Updated Name", "Updated Description", LocalDate.parse("2001-01-01"), 150);
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
             filmController.updateFilm(updateInfo);
@@ -74,7 +74,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void updateFilm_noId() {
+    protected void updateFilm_noId() {
         Film updateInfo = new Film(0L, "Updated Name", "Updated Description", LocalDate.parse("2001-01-01"), 150);
         ValidationException exception = assertThrows(ValidationException.class, () -> {
             filmController.updateFilm(updateInfo);
@@ -83,7 +83,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void findAllFilms() {
+    protected void findAllFilms() {
         Film film1 = new Film(null, "Film Name 1", "Description 1", LocalDate.parse("2000-01-01"), 120);
         Film film2 = new Film(null, "Film Name 2", "Description 2", LocalDate.parse("2001-01-01"), 130);
         filmController.createFilm(film1);

@@ -19,13 +19,13 @@ public class UserControllerTest {
     private Map<Long, User> users;
 
     @BeforeEach
-    public void setUp() {
+    protected void setUp() {
         users = new HashMap<>();
         userController = new UserController();
     }
 
     @Test
-    public void testCreateUserWithEmptyEmail() {
+    protected void testCreateUserWithEmptyEmail() {
         User user = new User(null, "", "testlogin", "Test User", LocalDate.now());
         ValidationException exception = assertThrows(ValidationException.class,
                 () -> userController.createUser(user));
@@ -33,7 +33,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreateUserWithInvalidEmail() {
+    protected void testCreateUserWithInvalidEmail() {
         User user = new User(null, "invalid.email", "testlogin", "Test User", LocalDate.now());
         ValidationException exception = assertThrows(ValidationException.class,
                 () -> userController.createUser(user));
@@ -41,7 +41,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreateUserWithEmptyLogin() {
+    protected void testCreateUserWithEmptyLogin() {
         User user = new User(null, "test@example.com", "", "Test User", LocalDate.now());
         ValidationException exception = assertThrows(ValidationException.class,
                 () -> userController.createUser(user));
@@ -49,7 +49,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreateUserWithFutureBirthday() {
+    protected void testCreateUserWithFutureBirthday() {
         User user = new User(null, "test@example.com", "testlogin", "Test User", LocalDate.now().plusDays(1));
         ValidationException exception = assertThrows(ValidationException.class,
                 () -> userController.createUser(user));
@@ -57,7 +57,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testUpdateUserInvalidId() {
+    protected void testUpdateUserInvalidId() {
         User userWithInvalidId = new User(0L, "test@example.com", "testlogin", "Test User", LocalDate.now());
         ValidationException exception = assertThrows(ValidationException.class,
                 () -> userController.updateUser(userWithInvalidId));
@@ -65,7 +65,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testUpdateUserSuccess() {
+    protected void testUpdateUserSuccess() {
         User existingUser = new User(1L, "test@example.com", "testlogin", "Test User", LocalDate.now());
         userController.createUser(existingUser);
         User updatedUser = new User(1L, "updated@example.com", "updatedlogin", "Updated User", LocalDate.now().minusDays(1));
@@ -79,7 +79,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testUpdateUserNotFound() {
+    protected void testUpdateUserNotFound() {
         User user = new User(1L, "updated@example.com", "updatedlogin", "Updated User", LocalDate.now().minusDays(1));
         NotFoundException exception = assertThrows(NotFoundException.class,
                 () -> userController.updateUser(user));
@@ -87,13 +87,13 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testFindAllUsersEmpty() {
+    protected void testFindAllUsersEmpty() {
         Collection<User> allUsers = userController.findAll();
         assertEquals(0, allUsers.size());
     }
 
     @Test
-    public void testFindAllUsers() {
+    protected void testFindAllUsers() {
         User user1 = new User(1L, "test1@example.com", "testlogin1", "Test User 1", LocalDate.now());
         User user2 = new User(2L, "test2@example.com", "testlogin2", "Test User 2", LocalDate.now());
         userController.createUser(user1);
