@@ -24,42 +24,42 @@ public class UserTest {
 
     @Test
     public void testValidUser() {
-        User user = new User(1L, "example@example.com", "username", "User Name", LocalDate.parse("2000-01-01"));
+        User user = new User(1L, "example@example.com", "username", "User Name", LocalDate.parse("2000-01-01"),null);
         Set<jakarta.validation.ConstraintViolation<User>> violations = validator.validate(user);
         assertTrue(violations.isEmpty());
     }
 
     @Test
     public void testInvalidEmail() {
-        User user = new User(1L, "invalid-email", "username", "User Name", LocalDate.parse("2000-01-01"));
+        User user = new User(1L, "invalid-email", "username", "User Name", LocalDate.parse("2000-01-01"),null);
         Set<jakarta.validation.ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     public void testEmptyEmail() {
-        User user = new User(1L, "", "username", "User Name", LocalDate.parse("2000-01-01"));
+        User user = new User(1L, "", "username", "User Name", LocalDate.parse("2000-01-01"),null);
         Set<jakarta.validation.ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     public void testInvalidLogin() {
-        User user = new User(1L, "example@example.com", "", "User Name", LocalDate.parse("2000-01-01"));
+        User user = new User(1L, "example@example.com", "", "User Name", LocalDate.parse("2000-01-01"),null);
         Set<jakarta.validation.ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     public void testEmptyLogin() {
-        User user = new User(1L, "example@example.com", "", "User Name", LocalDate.parse("2000-01-01"));
+        User user = new User(1L, "example@example.com", "", "User Name", LocalDate.parse("2000-01-01"),null);
         Set<jakarta.validation.ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     public void testFutureBirthday() {
-        User user = new User(1L, "example@example.com", "username", "User Name", LocalDate.now().plusDays(1));
+        User user = new User(1L, "example@example.com", "username", "User Name", LocalDate.now().plusDays(1),null);
         Set<jakarta.validation.ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
     }
