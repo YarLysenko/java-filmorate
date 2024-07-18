@@ -1,10 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,7 +31,7 @@ public class User {
     private String name;
 
     @NotNull(message = "Должна быть указана дата рождения")
-    @Past (message = "Дата рождения должна быть в прошлом")
+    @Past(message = "Дата рождения должна быть в прошлом")
     private LocalDate birthday;
 
     private Set<Long> friends = new HashSet<>();
