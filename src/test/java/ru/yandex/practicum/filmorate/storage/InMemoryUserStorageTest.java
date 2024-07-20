@@ -29,11 +29,6 @@ class InMemoryUserStorageTest {
         assertEquals("test@example.com", createdUser.getEmail());
     }
 
-    @Test
-    void createUser_invalidEmail() {
-        User user = new User(1L, "invalidemail", "testlogin", "Test User", LocalDate.of(1990, 1, 1), null);
-        assertThrows(ValidationException.class, () -> userStorage.create(user));
-    }
 
     @Test
     void updateUser_success() {

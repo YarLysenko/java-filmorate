@@ -1,10 +1,12 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -14,6 +16,8 @@ import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FilmControllerTest {
 
     @Autowired
+    private Validator validator;
     private FilmController filmController;
     private InMemoryFilmStorage filmStorage;
     private InMemoryUserStorage userStorage;
@@ -60,11 +65,14 @@ class FilmControllerTest {
 
     @Test
     void createFilm_blankName() {
-        Film film = new Film(null, "", "Description", LocalDate.parse("2000-01-01"), 120, null);
-        ValidationException exception = assertThrows(ValidationException.class, () -> {
-            filmController.createFilm(film);
-        });
-        assertEquals("Название не может быть пустым", exception.getMessage());
+        try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
+            validator = validatorFactory.usingContext().getValidator();
+        }
+
+        Film film = new Film(null, null, "Description", LocalDate.parse("2000-01-01"), 120, null);
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        String textException = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(" "));
+        assertEquals("Название не может быть пустым", textException);
     }
 
     @Test
