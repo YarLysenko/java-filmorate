@@ -46,16 +46,9 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     private void validateFilm(Film film) {
-        final int MAX_DESCRIPTION_LENGTH = 200;
-        if (film.getName() == null || film.getName().trim().isEmpty()) {
-            throw new ValidationException("Название не может быть пустым");
-        }
         LocalDate earliestReleaseDate = LocalDate.of(1895, 12, 28);
         if (film.getReleaseDate() == null || film.getReleaseDate().isBefore(earliestReleaseDate)) {
             throw new ValidationException("Дата релиза не может быть раньше 28 декабря 1895 года");
-        }
-        if (film.getDuration() <= 0) {
-            throw new ValidationException("Продолжительность фильма должна быть положительным числом");
         }
     }
 
