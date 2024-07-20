@@ -27,7 +27,7 @@ public class ErrorHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<ErrorResponse> ValidationException (ValidationException e) {
+    public ResponseEntity<ErrorResponse> onValidationException (ValidationException e) {
         ErrorResponse response = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
