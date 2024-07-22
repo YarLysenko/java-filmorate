@@ -16,12 +16,12 @@ class InMemoryUserStorageTest {
     private InMemoryUserStorage userStorage;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
         userStorage = new InMemoryUserStorage();
     }
 
     @Test
-    void createUser_success() {
+    protected void createUser_success() {
         User user = new User(1L, "test@example.com", "testlogin", "Test User", LocalDate.of(1990, 1, 1), null);
         User createdUser = userStorage.create(user);
         assertNotNull(createdUser.getId());
@@ -30,7 +30,7 @@ class InMemoryUserStorageTest {
 
 
     @Test
-    void updateUser_success() {
+    protected void updateUser_success() {
         User user = new User(1L, "test@example.com", "testlogin", "Test User", LocalDate.of(1990, 1, 1), null);
         User createdUser = userStorage.create(user);
         createdUser.setName("Updated User");
@@ -39,13 +39,13 @@ class InMemoryUserStorageTest {
     }
 
     @Test
-    void updateUser_notFound() {
+    protected void updateUser_notFound() {
         User user = new User(999L, "test@example.com", "testlogin", "Test User", LocalDate.of(1990, 1, 1), null);
         assertThrows(NotFoundException.class, () -> userStorage.update(user));
     }
 
     @Test
-    void findAllUsers() {
+    protected void findAllUsers() {
         User user1 = new User(1L, "test1@example.com", "testlogin1", "Test User 1", LocalDate.of(1990, 1, 1), null);
         User user2 = new User(2L, "test2@example.com", "testlogin2", "Test User 2", LocalDate.of(1990, 2, 2), null);
         userStorage.create(user1);
@@ -56,7 +56,7 @@ class InMemoryUserStorageTest {
     }
 
     @Test
-    void findUserById_success() {
+    protected void findUserById_success() {
         User user = new User(1L, "test@example.com", "testlogin", "Test User", LocalDate.of(1990, 1, 1), null);
         User createdUser = userStorage.create(user);
         User foundUser = userStorage.findById(createdUser.getId());
@@ -64,7 +64,7 @@ class InMemoryUserStorageTest {
     }
 
     @Test
-    void findUserById_notFound() {
+    protected void findUserById_notFound() {
         assertNull(userStorage.findById(999L));
     }
 }

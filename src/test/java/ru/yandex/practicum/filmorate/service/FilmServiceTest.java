@@ -23,14 +23,14 @@ public class FilmServiceTest {
     private UserStorage userStorage;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
         filmStorage = new InMemoryFilmStorage();
         userStorage = new InMemoryUserStorage();
         filmService = new FilmService(filmStorage, userStorage);  // передаем оба хранилища
     }
 
     @Test
-    void testAddLikeSuccess() {
+    protected void testAddLikeSuccess() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.parse("2000-01-01"), 120, new HashSet<>());
         Film createdFilm = filmStorage.create(film);
 
@@ -47,12 +47,12 @@ public class FilmServiceTest {
     }
 
     @Test
-    void testAddLikeFilmNotFound() {
+    protected void testAddLikeFilmNotFound() {
         assertThrows(NotFoundException.class, () -> filmService.addLike(999L, 1L));
     }
 
     @Test
-    void rtestRemoveLikeSuccess() {
+    protected void rtestRemoveLikeSuccess() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.parse("2000-01-01"), 120, new HashSet<>());
         Film createdFilm = filmStorage.create(film);
 
@@ -70,12 +70,12 @@ public class FilmServiceTest {
     }
 
     @Test
-    void testRemoveLikeFilmNotFound() {
+    protected void testRemoveLikeFilmNotFound() {
         assertThrows(NotFoundException.class, () -> filmService.removeLike(999L, 1L));
     }
 
     @Test
-    void testGetMostPopularFilms() {
+    protected void testGetMostPopularFilms() {
         Film film1 = new Film(null, "Film Name 1", "Description 1", LocalDate.parse("2000-01-01"), 120, new HashSet<>());
         Film film2 = new Film(null, "Film Name 2", "Description 2", LocalDate.parse("2000-01-01"), 130, new HashSet<>());
         Film createdFilm1 = filmStorage.create(film1);
@@ -96,7 +96,7 @@ public class FilmServiceTest {
     }
 
     @Test
-    void testCreateUserInvalidLogin() {
+    protected void testCreateUserInvalidLogin() {
         User user = new User();
         user.setEmail("user@example.com");
         user.setLogin("invalid login"); // Contains a space

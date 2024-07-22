@@ -18,13 +18,13 @@ public class UserServiceTest {
     private InMemoryUserStorage userStorage;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
         userStorage = new InMemoryUserStorage();
         userService = new UserService(userStorage);
     }
 
     @Test
-    void testAddFriendSuccess() {
+    protected void testAddFriendSuccess() {
         User user1 = new User(null, "user1@example.com", "user1", "User One", LocalDate.of(1990, 1, 1), new HashSet<>());
         User user2 = new User(null, "user2@example.com", "user2", "User Two", LocalDate.of(1991, 2, 2), new HashSet<>());
         User createdUser1 = userStorage.create(user1);
@@ -34,12 +34,12 @@ public class UserServiceTest {
     }
 
     @Test
-    void testAddFriendUserNotFound() {
+    protected void testAddFriendUserNotFound() {
         assertThrows(NotFoundException.class, () -> userService.addFriend(999L, 1L));
     }
 
     @Test
-    void testRemoveFriendSuccess() {
+    protected void testRemoveFriendSuccess() {
         User user1 = new User(null, "user1@example.com", "user1", "User One", LocalDate.of(1990, 1, 1), new HashSet<>());
         User user2 = new User(null, "user2@example.com", "user2", "User Two", LocalDate.of(1991, 2, 2), new HashSet<>());
         User createdUser1 = userStorage.create(user1);
@@ -50,13 +50,13 @@ public class UserServiceTest {
     }
 
     @Test
-    void testRemoveFriendUserNotFound() {
+    protected void testRemoveFriendUserNotFound() {
         assertThrows(NotFoundException.class, () -> userService.removeFriend(999L, 1L));
     }
 
 
     @Test
-    void testGetCommonFriends() {
+    protected void testGetCommonFriends() {
         User user1 = new User(null, "user1@example.com", "user1", "User One", LocalDate.parse("1990-01-01"), new HashSet<>());
         User user2 = new User(null, "user2@example.com", "user2", "User Two", LocalDate.parse("1991-02-02"), new HashSet<>());
         User user3 = new User(null, "user3@example.com", "user3", "User Three", LocalDate.parse("1991-03-03"), new HashSet<>());

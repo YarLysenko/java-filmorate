@@ -41,7 +41,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilm_success() {
+    protected void createFilm_success() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.parse("2000-01-01"), 120, null);
         ResponseEntity<Film> responseEntity = filmController.createFilm(film);
         Film createdFilm = responseEntity.getBody();
@@ -57,7 +57,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilm_invalidReleaseDate() {
+    protected void createFilm_invalidReleaseDate() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.parse("1800-01-01"), 120, null);
         ValidationException exception = assertThrows(ValidationException.class, () -> {
             filmController.createFilm(film);
@@ -66,7 +66,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilm_blankName() {
+    protected void createFilm_blankName() {
         try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
             validator = validatorFactory.usingContext().getValidator();
         }
@@ -78,7 +78,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void updateFilm_success() {
+    protected void updateFilm_success() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.parse("2000-01-01"), 120, null);
         ResponseEntity<Film> createResponse = filmController.createFilm(film);
         Film createdFilm = createResponse.getBody();
@@ -98,7 +98,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void updateFilm_notFound() {
+    protected void updateFilm_notFound() {
         Film updateInfo = new Film(999L, "Updated Name", "Updated Description", LocalDate.parse("2001-01-01"), 150, null);
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
             filmController.updateFilm(updateInfo);
@@ -107,7 +107,7 @@ class FilmControllerTest {
     }
 
     @Test
-    void findAllFilms() {
+    protected void findAllFilms() {
         Film film1 = new Film(null, "Film Name 1", "Description 1", LocalDate.parse("2000-01-01"), 120, null);
         Film film2 = new Film(null, "Film Name 2", "Description 2", LocalDate.parse("2001-01-01"), 130, null);
         filmController.createFilm(film1);

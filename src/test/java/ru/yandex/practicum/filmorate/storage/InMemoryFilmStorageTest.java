@@ -16,12 +16,12 @@ public class InMemoryFilmStorageTest {
     private InMemoryFilmStorage filmStorage;
 
     @BeforeEach
-    void setUp() {
+    protected void setUp() {
         filmStorage = new InMemoryFilmStorage();
     }
 
     @Test
-    void createFilm_success() {
+    protected void createFilm_success() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.of(2000, 1, 1), 120, null);
         Film createdFilm = filmStorage.create(film);
         assertNotNull(createdFilm.getId());
@@ -29,13 +29,13 @@ public class InMemoryFilmStorageTest {
     }
 
     @Test
-    void createFilm_invalidReleaseDate() {
+    protected void createFilm_invalidReleaseDate() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.of(1800, 1, 1), 120, null);
         assertThrows(ValidationException.class, () -> filmStorage.create(film));
     }
 
     @Test
-    void updateFilm_success() {
+    protected void updateFilm_success() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.of(2000, 1, 1), 120, null);
         Film createdFilm = filmStorage.create(film);
         createdFilm.setName("Updated Name");
@@ -44,13 +44,13 @@ public class InMemoryFilmStorageTest {
     }
 
     @Test
-    void updateFilm_notFound() {
+    protected void updateFilm_notFound() {
         Film film = new Film(999L, "Film Name", "Description", LocalDate.of(2000, 1, 1), 120, null);
         assertThrows(NotFoundException.class, () -> filmStorage.update(film));
     }
 
     @Test
-    void findAllFilms() {
+    protected void findAllFilms() {
         Film film1 = new Film(null, "Film Name 1", "Description 1", LocalDate.of(2000, 1, 1), 120, null);
         Film film2 = new Film(null, "Film Name 2", "Description 2", LocalDate.of(2001, 1, 1), 130, null);
         filmStorage.create(film1);
@@ -61,7 +61,7 @@ public class InMemoryFilmStorageTest {
     }
 
     @Test
-    void findFilmById_success() {
+    protected void findFilmById_success() {
         Film film = new Film(null, "Film Name", "Description", LocalDate.of(2000, 1, 1), 120, null);
         Film createdFilm = filmStorage.create(film);
         Film foundFilm = filmStorage.findById(createdFilm.getId());
@@ -69,7 +69,7 @@ public class InMemoryFilmStorageTest {
     }
 
     @Test
-    void findFilmById_notFound() {
+    protected void findFilmById_notFound() {
         assertNull(filmStorage.findById(999L));
     }
 }
