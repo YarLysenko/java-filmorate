@@ -1,4 +1,5 @@
 # java-filmorate
+Template repository for Filmorate project.
 ![Схема БД Filmorate](Filmorate_Diagram.png)
 
 Примеры запросов для PostgreSQL:
